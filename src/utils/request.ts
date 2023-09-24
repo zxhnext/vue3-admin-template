@@ -9,11 +9,10 @@ const service = axios.create({
   timeout: 5000
 })
 
-const userStore = useUserStore()
-
 // 请求拦截器
 service.interceptors.request.use(
   (config: any) => {
+    const userStore = useUserStore()
     const { icode, time } = getTestICode()
     config.headers.icode = icode
     config.headers.codeType = time
@@ -51,6 +50,7 @@ service.interceptors.response.use(
     }
   },
   (error: any) => {
+    const userStore = useUserStore()
     // 处理 token 超时问题
     if (
       error.response &&

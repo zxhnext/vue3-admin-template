@@ -1,6 +1,12 @@
 import router from './index'
 import { useUserStore } from '@/store/user'
 // import { generateTitle } from '@/utils/i18n'
+import nProgress from 'nprogress' // 显示页面加载进度条
+import 'nprogress/nprogress.css'
+
+nProgress.configure({
+  showSpinner: false
+})
 
 // 白名单
 const whiteList = ['/login']
@@ -11,6 +17,7 @@ const whiteList = ['/login']
  * @param {*} next 是否要去
  */
 router.beforeEach(async (to, from, next) => {
+  nProgress.start()
   // 存在 token ，进入主页
   // if (store.state.user.token) {
   // 快捷访问
@@ -54,4 +61,8 @@ router.beforeEach(async (to, from, next) => {
       next('/login')
     }
   }
+})
+
+router.afterEach(() => {
+  nProgress.done(true)
 })
